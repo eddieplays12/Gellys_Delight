@@ -12,6 +12,9 @@ export default function Navbar({ onLoginClick, onLogout, user, cartCount }) {
                 <a href="/products" className="nav-link">
                     Menu
                 </a>
+                <a href="/about" className="nav-link">
+                    About Us
+                </a>
                 <a href="/cart" className="nav-link">
                     Cart (<span>{cartCount}</span>)
                 </a>

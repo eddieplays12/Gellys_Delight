@@ -73,12 +73,15 @@ export default function ProductsPage() {
                 user={user}
                 cartCount={getCartItemCount(cart)}
             />
-            <section className="menu-section">
-                <div className="container">
-                    <h1 className="section-title">Our Products</h1>
-                    <Menu onAddToCart={handleAddToCart} />
-                </div>
-            </section>
+            <Menu
+                onAddToCart={handleAddToCart}
+                title="Bestsellers"
+                subtitle="Our customer favorites, ready for your next coffee break."
+                showCategories={false}
+                bestsellersOnly
+                maxItems={3}
+            />
+            <Menu onAddToCart={handleAddToCart} />
             <Footer />
             <AuthModal
                 isOpen={showAuthModal}

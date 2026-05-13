@@ -37,6 +37,30 @@ NEXT_PUBLIC_API_ORIGIN=https://your-laravel-backend-domain.com
 
 Local fallback is `http://127.0.0.1:8000`, but that only works on your own computer. Online users need a real hosted backend URL.
 
+## Student Demo Without A Domain
+
+If you do not have a domain yet, use a temporary Cloudflare Tunnel URL for the Laravel backend:
+
+```powershell
+cloudflared tunnel --url http://127.0.0.1:8000
+```
+
+Cloudflare will print a temporary URL like:
+
+```text
+https://random-name.trycloudflare.com
+```
+
+Put that URL in Vercel:
+
+```text
+NEXT_PUBLIC_API_ORIGIN=https://random-name.trycloudflare.com
+```
+
+Then redeploy the Vercel frontend.
+
+See [STUDENT_ONLINE_GUIDE.md](STUDENT_ONLINE_GUIDE.md) for the multi-day demo checklist.
+
 ## Laravel Backend
 
 The Laravel backend cannot be served by Vercel as-is. Put it on PHP hosting, a VPS, or a Laravel-friendly platform.

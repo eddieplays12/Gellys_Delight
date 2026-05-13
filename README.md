@@ -53,3 +53,5 @@ For Vercel, set `NEXT_PUBLIC_API_ORIGIN` to your hosted Laravel backend URL.
 ## Deployment
 
 See [DEPLOYMENT.md](DEPLOYMENT.md) for GitHub, Vercel, and Laravel backend hosting notes.
+
+For a student demo without a paid domain, see [STUDENT_ONLINE_GUIDE.md](STUDENT_ONLINE_GUIDE.md).
