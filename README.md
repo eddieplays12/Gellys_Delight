@@ -24,16 +24,12 @@ https://households-resort-mario-wow.trycloudflare.com/gellys-laravel/public
 ```text
 Customer device
     |
-    v
 Vercel Next.js frontend
     |
-    v
 Cloudflare Tunnel URL
     |
-    v
 Laravel backend on laptop through XAMPP Apache
     |
-    v
 Local MySQL database in XAMPP
 ```
 
@@ -56,7 +52,7 @@ Install these before running the project locally:
 - XAMPP with Apache and MySQL
 - Node.js and npm
 - Git
-- Cloudflare Tunnel (`cloudflared.exe`) for online demo access
+- Cloudflare Tunnel (`cloudflared.exe`) for online  access
 
 ## Step-By-Step Local Setup
 
@@ -172,7 +168,7 @@ http://127.0.0.1:8000/api/products
 
 ## Current Online Demo Setup
 
-For the current school demo, the backend is served by XAMPP Apache:
+For the current online, the backend is served by XAMPP Apache:
 
 ```text
 http://127.0.0.1/gellys-laravel/public
@@ -249,7 +245,7 @@ The frontend calls the backend using this variable in:
 frontend/lib/apiClient.js
 ```
 
-## Laravel Environment For Online Demo
+## Laravel Environment For Online 
 
 Important `.env` values:
 
@@ -657,7 +653,7 @@ Product with ratings/orders cannot be deleted:
 - The project now deletes related ratings and order items before deleting a product.
 - If the issue returns, check database foreign key relationships.
 
-## Notes For School Demo
+## Notes For Laptop server
 
 - Keep the laptop plugged in.
 - Disable sleep mode.
