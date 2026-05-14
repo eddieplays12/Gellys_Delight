@@ -42,6 +42,7 @@ export default function RatingModal({
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
+                    user_id: user.id,
                     product_id: product.id,
                     rating: selectedRating,
                     comment,

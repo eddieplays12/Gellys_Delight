@@ -20,16 +20,16 @@ Route::get('/products', [ProductController::class, 'index']);
 Route::middleware('web')->group(function () {
     Route::post('/users/register', [UserController::class, 'register']);
     Route::post('/users/login', [UserController::class, 'login']);
+    Route::post('/orders', [OrderController::class, 'createOrder']);
+    Route::get('/users/{userId}/orders', [OrderController::class, 'getOrdersByUser']);
+    Route::post('/ratings', [RatingController::class, 'createRating']);
 
     Route::middleware('user.auth')->group(function () {
         Route::get('/users/me', [UserController::class, 'me']);
         Route::put('/users/me', [UserController::class, 'updateMe']);
         Route::post('/users/logout', [UserController::class, 'logout']);
 
-        Route::post('/orders', [OrderController::class, 'createOrder']);
         Route::get('/users/me/orders', [OrderController::class, 'getMyOrders']);
-
-        Route::post('/ratings', [RatingController::class, 'createRating']);
     });
 });
 

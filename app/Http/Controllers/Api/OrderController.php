@@ -13,6 +13,7 @@ class OrderController extends Controller
     public function createOrder(Request $request): JsonResponse
     {
         $validated = $request->validate([
+            'user_id' => 'nullable|exists:users,id',
             'delivery_name' => 'required|string',
             'delivery_phone' => 'required|string',
             'delivery_address' => 'required|string',
@@ -22,7 +23,11 @@ class OrderController extends Controller
             'items.*.price' => 'required|numeric',
         ]);
 
-        $userId = $request->session()->get('user_id');
+        $userId = $request->session()->get('user_id') ?? $validated['user_id'] ?? null;
+
+        if (!$userId) {
+            return response()->json(['message' => 'Please login first.'], 401);
+        }
 
         $order = Order::create([
             'user_id' => $userId,
@@ -49,7 +54,17 @@ class OrderController extends Controller
 
     public function getMyOrders(Request $request): JsonResponse
     {
-        $orders = Order::where('user_id', $request->session()->get('user_id'))
+        return $this->ordersForUser((int) $request->session()->get('user_id'));
+    }
+
+    public function getOrdersByUser($userId): JsonResponse
+    {
+        return $this->ordersForUser((int) $userId);
+    }
+
+    private function ordersForUser(int $userId): JsonResponse
+    {
+        $orders = Order::where('user_id', $userId)
             ->with('items.product')
             ->latest()
             ->get();

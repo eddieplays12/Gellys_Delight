@@ -102,6 +102,7 @@ export default function CartPage() {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
+                    user_id: user.id,
                     delivery_name: deliveryDetails.delivery_name,
                     delivery_phone: deliveryDetails.delivery_phone,
                     delivery_address: deliveryDetails.delivery_address,

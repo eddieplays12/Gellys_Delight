@@ -41,7 +41,7 @@ export default function OrdersPage() {
     async function fetchOrders() {
         try {
             setLoading(true);
-            const response = await apiFetch("/users/me/orders");
+            const response = await apiFetch(`/users/${user.id}/orders`);
 
             if (!response.ok) {
                 throw new Error("Failed to fetch orders");
