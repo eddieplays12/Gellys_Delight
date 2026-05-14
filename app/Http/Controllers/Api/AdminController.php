@@ -9,7 +9,9 @@ use App\Models\Product;
 use App\Models\Rating;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
 {
@@ -81,7 +83,17 @@ class AdminController extends Controller
                 ->header('Access-Control-Allow-Origin', '*');
         }
 
-        $product->delete();
+        DB::transaction(function () use ($product): void {
+            $imagePath = $product->image;
+
+            $product->ratings()->delete();
+            $product->orderItems()->delete();
+            $product->delete();
+
+            if ($imagePath) {
+                Storage::disk('public')->delete($imagePath);
+            }
+        });
 
         return response()->json(['message' => 'Product deleted'])
             ->header('Access-Control-Allow-Origin', '*');

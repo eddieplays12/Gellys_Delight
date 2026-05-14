@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
@@ -101,13 +102,17 @@ class ProductController extends Controller
     // 6. DELETE PRODUCT (DELETE /admin/products/{id})
     public function destroy(Product $product)
     {
-        // Delete the image if it exists
-        if ($product->image) {
-            Storage::disk('public')->delete($product->image);
-        }
+        DB::transaction(function () use ($product): void {
+            $imagePath = $product->image;
 
-        // Delete the product from database
-        $product->delete();
+            $product->ratings()->delete();
+            $product->orderItems()->delete();
+            $product->delete();
+
+            if ($imagePath) {
+                Storage::disk('public')->delete($imagePath);
+            }
+        });
 
         // Redirect back with success message
         return redirect()->route('admin.products.index')

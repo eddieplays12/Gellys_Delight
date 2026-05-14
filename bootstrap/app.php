@@ -23,6 +23,10 @@ return Application::configure(basePath: dirname(__DIR__))
                 Request::HEADER_X_FORWARDED_PROTO
         );
 
+        $middleware->validateCsrfTokens(except: [
+            'api/*',
+        ]);
+
         $middleware->alias([
             'admin.auth' => AdminAuthenticated::class,
             'user.auth' => UserAuthenticated::class,
