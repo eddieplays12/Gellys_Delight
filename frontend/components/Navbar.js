@@ -2,7 +2,6 @@ export default function Navbar({ onLoginClick, onLogout, user, cartCount }) {
     return (
         <nav className="navbar">
             <div className="nav-brand">
-                <span>Coffee</span>
                 <span>Gelly's Delights</span>
             </div>
             <div className="nav-links">
