@@ -81,6 +81,18 @@ export default function Menu({
         return maxItems ? sortedProducts.slice(0, maxItems) : sortedProducts;
     }
 
+    function getCategoryLabel(category) {
+        if (category === "all") {
+            return "All Products";
+        }
+
+        if (category === "Coffee") {
+            return "Coffee Coming Soon";
+        }
+
+        return category;
+    }
+
     return (
         <section id="menu" className="menu-section">
             <div className="container">
@@ -98,7 +110,7 @@ export default function Menu({
                                 }`}
                                 onClick={() => handleCategoryFilter(category)}
                             >
-                                {category === "all" ? "All Products" : category}
+                                {getCategoryLabel(category)}
                             </button>
                         ))}
                     </div>
