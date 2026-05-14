@@ -201,7 +201,7 @@ If the laptop sleeps or the tunnel stops, the Vercel frontend may still open, bu
 Example command:
 
 ```powershell
-C:\Users\User\Documents\Codex\2026-05-14\files-mentioned-by-the-user-gellys\cloudflared.exe tunnel --url http://127.0.0.1
+C:\Users\User\Documents\file\cloudflared.exe tunnel --url http://127.0.0.1
 ```
 
 Cloudflare will print a URL like:
@@ -665,5 +665,5 @@ Product with ratings/orders cannot be deleted:
 More demo-specific notes are in:
 
 ```text
-DEMO_DOCUMENTATION.md
+
 ```
