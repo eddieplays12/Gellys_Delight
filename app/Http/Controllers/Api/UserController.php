@@ -13,11 +13,20 @@ class UserController extends Controller
     public function register(Request $request): JsonResponse
     {
         $validated = $request->validate([
-            'username' => 'required|string|unique:users',
+            'username' => 'required|string',
             'email' => 'required|email|unique:users',
             'password' => 'required|string|min:6',
             'address' => 'nullable|string',
         ]);
+
+        if ($this->usernameExists($validated['username'])) {
+            return response()->json([
+                'message' => 'The username has already been taken.',
+                'errors' => [
+                    'username' => ['The username has already been taken.'],
+                ],
+            ], 422);
+        }
 
         $validated['password'] = Hash::make($validated['password']);
 
@@ -38,7 +47,7 @@ class UserController extends Controller
             'password' => 'required|string',
         ]);
 
-        $user = User::where('username', $validated['username'])->first();
+        $user = User::whereRaw('BINARY username = ?', [$validated['username']])->first();
 
         if (!$user || !Hash::check($validated['password'], $user->password)) {
             return response()->json(['message' => 'Invalid credentials'], 401);
@@ -65,10 +74,19 @@ class UserController extends Controller
         $user = User::findOrFail($request->session()->get('user_id'));
 
         $validated = $request->validate([
-            'username' => 'nullable|string|unique:users,username,' . $user->id,
+            'username' => 'nullable|string',
             'email' => 'nullable|email|unique:users,email,' . $user->id,
             'address' => 'nullable|string',
         ]);
+
+        if (isset($validated['username']) && $this->usernameExists($validated['username'], $user->id)) {
+            return response()->json([
+                'message' => 'The username has already been taken.',
+                'errors' => [
+                    'username' => ['The username has already been taken.'],
+                ],
+            ], 422);
+        }
 
         $user->update($validated);
 
@@ -91,5 +109,24 @@ class UserController extends Controller
         $request->session()->regenerate();
         $request->session()->put('user_id', $user->id);
         $request->session()->put('username', $user->username);
+    }
+
+    private function usernameExists(string $username, ?int $ignoreUserId = null): bool
+    {
+        $query = User::query()->whereRaw(
+            "LOWER(REPLACE(username, ' ', '')) = ?",
+            [$this->normalizeUsername($username)]
+        );
+
+        if ($ignoreUserId !== null) {
+            $query->where('id', '!=', $ignoreUserId);
+        }
+
+        return $query->exists();
+    }
+
+    private function normalizeUsername(string $username): string
+    {
+        return strtolower(str_replace(' ', '', trim($username)));
     }
 }
